@@ -1,0 +1,8 @@
+# Ignore log files
+server_log.txt
+client_log.txt
+
+# Ignore Python cache files and folders
+__pycache__/
+*.py[cod]
+*.pyo
