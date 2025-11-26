@@ -1,0 +1,889 @@
+
+======================================================================
+[2025-11-02 21:36:03]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:36:04]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-02 21:37:37]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:37:38]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-02 21:38:57]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:38:58]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-02 21:41:16]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:41:17]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-02 21:42:10]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:42:11]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionAbortedError
+Original Message: [WinError 10053] An established connection was aborted by the software in your host machine
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+
+
+======================================================================
+[2025-11-02 21:47:58]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 75, in start_tcp
+    client, addr = ssl_tcp_server.accept()
+                   ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1418, in accept
+    newsock = self.context.wrap_socket(newsock,
+                do_handshake_on_connect=self.do_handshake_on_connect,
+                suppress_ragged_eofs=self.suppress_ragged_eofs,
+                server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:47:59]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-02 21:49:44]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLError
+Original Message: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 76, in start_tcp
+    ssl_client = SSL_CONTEXT.wrap_socket(client_sock, server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:49:46]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-02 21:52:02]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: SSLEOFError
+Original Message: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 76, in start_tcp
+    ssl_client = SSL_CONTEXT.wrap_socket(client_sock, server_side=True)
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+ssl.SSLEOFError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)
+
+
+======================================================================
+[2025-11-02 21:52:03]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: ConnectionResetError
+Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\server.py", line 35, in handle_tcp_client
+    nickname = client.recv(BUFFER_SIZE).decode("utf-8")
+               ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1285, in recv
+    return self.read(buflen)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\abdel\AppData\Local\Programs\Python\Python313\Lib\ssl.py", line 1140, in read
+    return self._sslobj.read(len)
+           ~~~~~~~~~~~~~~~~~^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+
+======================================================================
+[2025-11-09 22:41:31]
+Exception Type: ServerShutdownError
+Message: Error during shutdown
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\routing.py", line 747, in lifespan
+    await receive()
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\queues.py", line 186, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 517, in shutdown_event
+    await manager.broadcast("Server is shutting down. Goodbye!")
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 138, in broadcast
+    for connection in self.active_connections:
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:23]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 305, in get_users
+    users = manager.get_online_users()
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 193, in get_online_users
+    for info in self.active_connections.values()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:24]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 305, in get_users
+    users = manager.get_online_users()
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 193, in get_online_users
+    for info in self.active_connections.values()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:27]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 305, in get_users
+    users = manager.get_online_users()
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 193, in get_online_users
+    for info in self.active_connections.values()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:27]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 305, in get_users
+    users = manager.get_online_users()
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 193, in get_online_users
+    for info in self.active_connections.values()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:27]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 305, in get_users
+    users = manager.get_online_users()
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 193, in get_online_users
+    for info in self.active_connections.values()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:38]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 305, in get_users
+    users = manager.get_online_users()
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 193, in get_online_users
+    for info in self.active_connections.values()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:46:47]
+Exception Type: ChatException
+Message: Unexpected error in server
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 351, in send_message
+    await manager.broadcast(formatted_msg)
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 138, in broadcast
+    for connection in self.active_connections:
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:49:11]
+Exception Type: ServerShutdownError
+Message: Error during shutdown
+Original Error: AttributeError
+Original Message: 'ConnectionManager' object has no attribute 'active_connections'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 517, in shutdown_event
+    await manager.broadcast("Server is shutting down. Goodbye!")
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 138, in broadcast
+    for connection in self.active_connections:
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConnectionManager' object has no attribute 'active_connections'
+
+
+======================================================================
+[2025-11-09 22:52:17]
+Exception Type: ChatException
+Message: Error in main client loop
+Original Error: NameError
+Original Message: name 'websockets' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\client.py", line 61, in connect
+    self.websocket = await websockets.connect(
+                           ^^^^^^^^^^
+NameError: name 'websockets' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\client.py", line 199, in run
+    if not await self.connect():
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\client.py", line 68, in connect
+    except websockets.exceptions.InvalidStatusCode as e:
+           ^^^^^^^^^^
+NameError: name 'websockets' is not defined
+
+
+======================================================================
+[2025-11-09 22:54:31]
+Exception Type: MessageSendError
+Message: Failed to broadcast to eslam
+Original Error: ClientDisconnected
+Original Message: 
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1301, in close_connection
+    await self.transfer_data_task
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 963, in transfer_data
+    message = await self.read_message()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1033, in read_message
+    frame = await self.read_data_frame(max_size=self.max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1108, in read_data_frame
+    frame = await self.read_frame(max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1165, in read_frame
+    frame = await Frame.read(
+            ^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\framing.py", line 68, in read
+    data = await reader(2)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\streams.py", line 769, in readexactly
+    await self._wait_for_data('readexactly')
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\streams.py", line 539, in _wait_for_data
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 349, in asgi_send
+    await self.send(data)  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 635, in send
+    await self.ensure_open()
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 939, in ensure_open
+    raise self.connection_closed_exc()
+websockets.exceptions.ConnectionClosedError: sent 1012 (service restart); no close frame received
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 141, in broadcast
+    await connection.send_text(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\websockets.py", line 163, in send_text
+    await self.send({"type": "websocket.send", "text": data})
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\websockets.py", line 85, in send
+    await self._send(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\_exception_handler.py", line 50, in sender
+    await send(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 365, in asgi_send
+    raise ClientDisconnected from exc
+uvicorn.protocols.utils.ClientDisconnected
+
+
+======================================================================
+[2025-11-09 22:55:03]
+Exception Type: ConnectionError
+Message: Failed to connect to server
+Original Error: InvalidMessage
+Original Message: did not receive a valid HTTP response
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\http11.py", line 241, in parse
+    status_line = yield from parse_line(read_line)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\http11.py", line 309, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\streams.py", line 46, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\client.py", line 301, in parse
+    response = yield from Response.parse(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\http11.py", line 243, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\client.py", line 61, in connect
+    self.websocket = await websockets.connect(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.ws_url, ping_interval=20, ping_timeout=10
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\asyncio\client.py", line 543, in __await_impl__
+    await self.connection.handshake(
+    ...<2 lines>...
+    )
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\venv\Lib\site-packages\websockets\asyncio\client.py", line 114, in handshake
+    raise self.protocol.handshake_exc
+websockets.exceptions.InvalidMessage: did not receive a valid HTTP response
+
+
+======================================================================
+[2025-11-09 23:05:27]
+Exception Type: MessageSendError
+Message: Failed to broadcast to eslam
+Original Error: ClientDisconnected
+Original Message: 
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1301, in close_connection
+    await self.transfer_data_task
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 963, in transfer_data
+    message = await self.read_message()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1033, in read_message
+    frame = await self.read_data_frame(max_size=self.max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1108, in read_data_frame
+    frame = await self.read_frame(max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1165, in read_frame
+    frame = await Frame.read(
+            ^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\framing.py", line 68, in read
+    data = await reader(2)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\streams.py", line 769, in readexactly
+    await self._wait_for_data('readexactly')
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\streams.py", line 539, in _wait_for_data
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 349, in asgi_send
+    await self.send(data)  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 635, in send
+    await self.ensure_open()
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 939, in ensure_open
+    raise self.connection_closed_exc()
+websockets.exceptions.ConnectionClosedError: sent 1012 (service restart); no close frame received
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 141, in broadcast
+    await connection.send_text(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\websockets.py", line 163, in send_text
+    await self.send({"type": "websocket.send", "text": data})
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\websockets.py", line 85, in send
+    await self._send(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\_exception_handler.py", line 50, in sender
+    await send(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 365, in asgi_send
+    raise ClientDisconnected from exc
+uvicorn.protocols.utils.ClientDisconnected
+
+
+======================================================================
+[2025-11-10 10:45:34]
+Exception Type: MessageSendError
+Message: Failed to broadcast to Anonymous
+Original Error: ClientDisconnected
+Original Message: 
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1301, in close_connection
+    await self.transfer_data_task
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 963, in transfer_data
+    message = await self.read_message()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1033, in read_message
+    frame = await self.read_data_frame(max_size=self.max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1108, in read_data_frame
+    frame = await self.read_frame(max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 1165, in read_frame
+    frame = await Frame.read(
+            ^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\framing.py", line 68, in read
+    data = await reader(2)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\streams.py", line 769, in readexactly
+    await self._wait_for_data('readexactly')
+  File "C:\Users\ebrah\miniconda3\Lib\asyncio\streams.py", line 539, in _wait_for_data
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 349, in asgi_send
+    await self.send(data)  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 635, in send
+    await self.ensure_open()
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\websockets\legacy\protocol.py", line 939, in ensure_open
+    raise self.connection_closed_exc()
+websockets.exceptions.ConnectionClosedError: sent 1012 (service restart); no close frame received
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ebrah\Documents\Network-Security-Project\Network-Security-Project\server.py", line 141, in broadcast
+    await connection.send_text(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\websockets.py", line 163, in send_text
+    await self.send({"type": "websocket.send", "text": data})
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\websockets.py", line 85, in send
+    await self._send(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\starlette\_exception_handler.py", line 50, in sender
+    await send(message)
+  File "C:\Users\ebrah\miniconda3\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 365, in asgi_send
+    raise ClientDisconnected from exc
+uvicorn.protocols.utils.ClientDisconnected
+

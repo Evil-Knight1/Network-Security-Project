@@ -1,451 +1,279 @@
-import socket
-import threading
-import datetime
-import traceback
-from exceptions import *
+"""
+═══════════════════════════════════════════════════════════════════════
+    FASTAPI WEBSOCKET CLIENT
+═══════════════════════════════════════════════════════════════════════
+"""
+
+import asyncio
+import ssl
+import websockets
+import json
+import sys
+from datetime import datetime
+import exceptions
+
+#    CONFIGURATION
 
 HOST = "127.0.0.1"
-TCP_PORT = 55555
-UDP_PORT = 55556
+PORT = 8000
 LOG_FILE = "client_log.txt"
-running = True
-print_lock = threading.Lock()
 
-# ========== LOGGING ==========
-def log_event(msg, is_error=False, exception=None):
-    """Write info/error logs with exception details"""
+#     UTILITY FUNCTIONS
+
+
+def log_event(message: str):
+    """Log events to file"""
     try:
-        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        prefix = "ERROR" if is_error else "INFO"
         with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"[{now}] {prefix}: {msg}\n")
-            if exception:
-                if isinstance(exception, ChatException):
-                    details = exception.get_details()
-                    f.write(f"Exception Type: {details['type']}\n")
-                    f.write(f"Message: {details['message']}\n")
-                    if details['original_type']:
-                        f.write(f"Original Error: {details['original_type']}\n")
-                        f.write(f"Original Message: {details['original_error']}\n")
-                f.write(traceback.format_exc() + "\n")
-    except IOError as e:
-        print(f"⚠️ Failed to write to log: {e}")
-
-def safe_print(msg):
-    """Thread-safe printing"""
-    with print_lock:
-        print(f"\n{msg}")
-        print("> ", end="", flush=True)
-
-# ========== TCP ==========
-def tcp_receive(sock, nickname):
-    """Receive TCP messages with comprehensive error handling"""
-    global running
-    
-    try:
-        while running:
-            try:
-                # ===== STAGE 1: RECEIVE DATA =====
-                try:
-                    msg_data = sock.recv(1024)
-                except socket.timeout:
-                    continue
-                except socket.error as e:
-                    if running:
-                        raise handle_socket_error(e, "recv", "TCP message")
-                    break
-                
-                # ===== STAGE 2: CHECK FOR DISCONNECTION =====
-                if not msg_data:
-                    raise DisconnectionError("Server closed TCP connection")
-                
-                # ===== STAGE 3: DECODE MESSAGE =====
-                try:
-                    msg = msg_data.decode("utf-8")
-                    safe_print(msg)
-                except UnicodeDecodeError as e:
-                    raise InvalidMessageFormatError("Received invalid UTF-8 from server", e)
-                    
-            except socket.timeout:
-                continue
-                
-    except DisconnectionError as e:
-        if running:
-            safe_print(f"[TCP] {format_error_for_user(e)}")
-            log_event(str(e), is_error=True, exception=e)
-            running = False
-            
-    except MessageReceiveError as e:
-        if running:
-            safe_print(f"[TCP] {format_error_for_user(e)}")
-            log_event(str(e), is_error=True, exception=e)
-            running = False
-            
-    except InvalidMessageFormatError as e:
-        safe_print(f"[TCP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            f.write(f"[{timestamp}] {message}\n")
     except Exception as e:
-        error = ChatException("Unexpected TCP receive error", e)
-        safe_print(f"[TCP] {format_error_for_user(error)}")
-        log_event(str(error), is_error=True, exception=error)
-        running = False
+        print(f"Failed to log: {e}")
 
-def start_tcp(nickname):
-    """Start TCP connection with comprehensive error handling"""
-    sock = None
-    
-    try:
-        # ===== STAGE 1: CREATE SOCKET =====
+
+def safe_print(message: str):
+    """Print and log message"""
+    print(message)
+    log_event(message)
+
+
+#  CLIENT CLASS
+
+
+class ChatClient:
+    def __init__(self, host: str, port: int, nickname: str):
+        self.host = host
+        self.port = port
+        self.nickname = nickname
+        self.websocket = None
+        self.running = False
+        self.ws_url = f"wss://{host}:{port}/ws/{nickname}"
+
+    async def connect(self):
+        """Connect to the WebSocket server"""
         try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        except OSError as e:
-            raise SocketCreationError("Failed to create TCP socket", e)
-        
-        # ===== STAGE 2: CONNECT WITH TIMEOUT =====
-        sock.settimeout(10.0)
-        try:
-            sock.connect((HOST, TCP_PORT))
-        except socket.timeout as e:
-            raise ConnectionError(f"TCP connection to {HOST}:{TCP_PORT} timed out", e)
-        except socket.error as e:
-            raise handle_socket_error(e, "connect", f"to {HOST}:{TCP_PORT}")
-        
-        sock.settimeout(None)  # Remove timeout
-        
-        # ===== STAGE 3: SEND NICKNAME =====
-        try:
-            sock.send(nickname.encode("utf-8"))
-        except socket.error as e:
-            raise handle_socket_error(e, "send", "nickname")
-        
-        # ===== STAGE 4: START RECEIVE THREAD =====
-        threading.Thread(target=tcp_receive, args=(sock, nickname), daemon=True).start()
-        
-        safe_print("[TCP] ✅ Connected.")
-        log_event(f"Connected to TCP as {nickname}")
-        return sock
-        
-    except SocketCreationError as e:
-        safe_print(f"[TCP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
-        
-    except ConnectionError as e:
-        safe_print(f"[TCP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
-        
-    except MessageSendError as e:
-        safe_print(f"[TCP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
-        
-    except Exception as e:
-        error = ChatException("Unexpected TCP connection error", e)
-        safe_print(f"[TCP] {format_error_for_user(error)}")
-        log_event(str(error), is_error=True, exception=error)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
+            safe_print(f"🔌 Connecting to {self.ws_url}...")
+            self.websocket = await websockets.connect(
+                self.ws_url,
+                ping_interval=20,
+                ping_timeout=10,
+                ssl=ssl._create_unverified_context(),
+            )
+            self.running = True
+            safe_print("✅ Connected to server!")
+            return True
 
-# ========== UDP ==========
-def udp_receive(sock, nickname):
-    """Receive UDP messages with comprehensive error handling"""
-    global running
-    
-    try:
-        while running:
-            try:
-                # ===== STAGE 1: RECEIVE DATA =====
-                try:
-                    data, _ = sock.recvfrom(1024)
-                except socket.timeout:
-                    continue
-                except socket.error as e:
-                    if running:
-                        raise UDPError("UDP receive error", e)
-                    break
-                
-                # ===== STAGE 2: DECODE MESSAGE =====
-                try:
-                    msg = data.decode("utf-8")
-                    safe_print(msg)
-                except UnicodeDecodeError as e:
-                    raise InvalidMessageFormatError("Received invalid UTF-8 via UDP", e)
-                    
-            except socket.timeout:
-                continue
-                
-    except UDPError as e:
-        if running:
-            safe_print(f"[UDP] {format_error_for_user(e)}")
-            log_event(str(e), is_error=True, exception=e)
-            
-    except InvalidMessageFormatError as e:
-        safe_print(f"[UDP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        
-    except Exception as e:
-        error = ChatException("Unexpected UDP receive error", e)
-        safe_print(f"[UDP] {format_error_for_user(error)}")
-        log_event(str(error), is_error=True, exception=error)
+        except websockets.exceptions.InvalidStatusCode as e:
+            exceptions.log_exception(
+                exceptions.ConnectionError(f"Invalid status code: {e.status_code}", e)
+            )
+            safe_print(f"❌ Connection failed: Invalid status code {e.status_code}")
+            return False
 
-def start_udp(nickname):
-    """Start UDP connection with comprehensive error handling"""
-    sock = None
-    
-    try:
-        # ===== STAGE 1: CREATE SOCKET =====
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.settimeout(5.0)
-        except OSError as e:
-            raise SocketCreationError("Failed to create UDP socket", e)
-        
-        # ===== STAGE 2: SEND JOIN MESSAGE =====
-        try:
-            sock.sendto(f"/join:{nickname}".encode(), (HOST, UDP_PORT))
-        except socket.error as e:
-            raise UDPError(f"Failed to send join to {HOST}:{UDP_PORT}", e)
-        
-        # ===== STAGE 3: START RECEIVE THREAD =====
-        threading.Thread(target=udp_receive, args=(sock, nickname), daemon=True).start()
-        
-        safe_print("[UDP] ✅ Connected.")
-        log_event(f"Connected to UDP as {nickname}")
-        return sock
-        
-    except SocketCreationError as e:
-        safe_print(f"[UDP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
-        
-    except UDPError as e:
-        safe_print(f"[UDP] {format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
-        
-    except Exception as e:
-        error = ChatException("Unexpected UDP connection error", e)
-        safe_print(f"[UDP] {format_error_for_user(error)}")
-        log_event(str(error), is_error=True, exception=error)
-        if sock:
-            try:
-                sock.close()
-            except:
-                pass
-        return None
-
-# ========== MESSAGES ==========
-def send_messages(tcp_sock, udp_sock):
-    """Handle user input and send messages with comprehensive error handling"""
-    global running
-    print("\n📝 Commands: /tcp <msg> | /udp <msg> | /list | /exit\n")
-    
-    while running:
-        try:
-            msg = input("> ").strip()
-            
-            if not msg:
-                continue
-
-            # ===== EXIT COMMAND =====
-            if msg.lower() == "/exit":
-                running = False
-                
-                # Send exit via UDP
-                if udp_sock:
-                    try:
-                        udp_sock.sendto("/exit".encode(), (HOST, UDP_PORT))
-                    except socket.error as e:
-                        error = UDPError("Failed to send exit via UDP", e)
-                        log_event(str(error), is_error=True, exception=error)
-                
-                # Close TCP
-                if tcp_sock:
-                    try:
-                        tcp_sock.close()
-                    except socket.error as e:
-                        error = ChatException("Error closing TCP", e)
-                        log_event(str(error), is_error=True, exception=error)
-                
-                safe_print("👋 Disconnected.")
-                break
-
-            # ===== TCP MESSAGE =====
-            elif msg.startswith("/tcp "):
-                actual = msg[5:].strip()
-                
-                # Validate message
-                try:
-                    if not actual:
-                        raise ValidationError("Message cannot be empty")
-                    
-                    if len(actual) > 1000:
-                        raise ValidationError("Message too long (max 1000 characters)")
-                except ValidationError as e:
-                    safe_print(format_error_for_user(e))
-                    continue
-                
-                if tcp_sock:
-                    try:
-                        tcp_sock.send(actual.encode())
-                        log_event(f"Sent TCP: {actual}")
-                    except socket.error as e:
-                        error = handle_socket_error(e, "send", "TCP message")
-                        safe_print(format_error_for_user(error))
-                        log_event(str(error), is_error=True, exception=error)
-                else:
-                    safe_print("❌ TCP not connected.")
-
-            # ===== UDP MESSAGE =====
-            elif msg.startswith("/udp "):
-                actual = msg[5:].strip()
-                
-                # Validate message
-                try:
-                    if not actual:
-                        raise ValidationError("Message cannot be empty")
-                    
-                    if len(actual) > 1000:
-                        raise ValidationError("Message too long (max 1000 characters)")
-                except ValidationError as e:
-                    safe_print(format_error_for_user(e))
-                    continue
-                
-                if udp_sock:
-                    try:
-                        udp_sock.sendto(actual.encode(), (HOST, UDP_PORT))
-                        log_event(f"Sent UDP: {actual}")
-                    except socket.error as e:
-                        error = UDPError("Failed to send UDP message", e)
-                        safe_print(format_error_for_user(error))
-                        log_event(str(error), is_error=True, exception=error)
-                else:
-                    safe_print("❌ UDP not connected.")
-
-            # ===== LIST COMMAND =====
-            elif msg == "/list":
-                if udp_sock:
-                    try:
-                        udp_sock.sendto("/list".encode(), (HOST, UDP_PORT))
-                        log_event("Requested user list")
-                    except socket.error as e:
-                        error = UDPError("Failed to request user list", e)
-                        safe_print(format_error_for_user(error))
-                        log_event(str(error), is_error=True, exception=error)
-                else:
-                    safe_print("❌ UDP not connected.")
-
-            # ===== DEFAULT: TCP MESSAGE =====
-            else:
-                # Validate message
-                try:
-                    if len(msg) > 1000:
-                        raise ValidationError("Message too long (max 1000 characters)")
-                except ValidationError as e:
-                    safe_print(format_error_for_user(e))
-                    continue
-                
-                if tcp_sock:
-                    try:
-                        tcp_sock.send(msg.encode())
-                        log_event(f"Sent TCP default: {msg}")
-                    except socket.error as e:
-                        error = handle_socket_error(e, "send", "message")
-                        safe_print(format_error_for_user(error))
-                        log_event(str(error), is_error=True, exception=error)
-                else:
-                    safe_print("❌ TCP not connected. Use /udp <msg> for UDP.")
-
-        except KeyboardInterrupt:
-            running = False
-            safe_print("\n👋 Exiting...")
-            break
-        except EOFError:
-            running = False
-            break
         except Exception as e:
-            error = ChatException("Unexpected error in message handler", e)
-            safe_print(format_error_for_user(error))
-            log_event(str(error), is_error=True, exception=error)
+            exceptions.log_exception(
+                exceptions.ConnectionError(f"Failed to connect to server", e)
+            )
+            safe_print(f"❌ Connection failed: {str(e)}")
+            return False
 
-# ========== MAIN ==========
-if __name__ == "__main__":
-    print("="*60)
-    print("🌐 COMBINED TCP + UDP CHAT CLIENT")
-    print("="*60)
-    
-    try:
-        # ===== STAGE 1: GET NICKNAME =====
-        nickname = input("Enter your nickname: ").strip()
-        
-        # Validate nickname
+    async def receive_messages(self):
+        """Continuously receive messages from server"""
         try:
-            if not nickname:
-                raise ValidationError("Nickname cannot be empty")
-            
-            if len(nickname) > 50:
-                raise ValidationError("Nickname too long (max 50 characters)")
-        except ValidationError as e:
-            print(f"\n{format_error_for_user(e)}")
-            log_event(str(e), is_error=True, exception=e)
-            exit(1)
-        
-        print("\n🔌 Connecting to server...\n")
-        
-        # ===== STAGE 2: CONNECT TO SERVERS =====
-        tcp_sock = start_tcp(nickname)
-        udp_sock = start_udp(nickname)
+            while self.running:
+                try:
+                    message = await self.websocket.recv()
+                    safe_print(f"\r{message}")
+                    print("You: ", end="", flush=True)
 
-        # ===== STAGE 3: CHECK CONNECTIONS =====
-        if not tcp_sock and not udp_sock:
-            safe_print("❌ Could not connect to any server.")
-            log_event("Failed to connect to both TCP and UDP servers", is_error=True)
-        else:
-            # ===== STAGE 4: START MESSAGING =====
-            send_messages(tcp_sock, udp_sock)
-            log_event("Client closed normally")
-            print("\n✅ Client stopped.")
-            
-    except ValidationError as e:
-        print(f"\n{format_error_for_user(e)}")
-        log_event(str(e), is_error=True, exception=e)
-        
+                except websockets.exceptions.ConnectionClosed:
+                    safe_print("\n⚠  Connection closed by server")
+                    self.running = False
+                    break
+
+                except Exception as e:
+                    exceptions.log_exception(
+                        exceptions.MessageReceiveError("Error receiving message", e)
+                    )
+                    if self.running:
+                        safe_print(f"\n⚠  Error receiving message: {str(e)}")
+
+        except Exception as e:
+            exceptions.log_exception(
+                exceptions.MessageReceiveError("Fatal error in receive loop", e)
+            )
+            self.running = False
+
+    async def send_message(self, message: str):
+        """Send a message to the server"""
+        try:
+            if not self.websocket or not self.running:
+                raise exceptions.ConnectionError("Not connected to server")
+
+            await self.websocket.send(message)
+            log_event(f"Sent: {message}")
+
+        except websockets.exceptions.ConnectionClosed:
+            exceptions.log_exception(
+                exceptions.DisconnectionError("Connection closed while sending")
+            )
+            safe_print("❌ Connection closed. Cannot send message.")
+            self.running = False
+
+        except Exception as e:
+            exceptions.log_exception(
+                exceptions.MessageSendError(f"Failed to send message", e)
+            )
+            safe_print(f"❌ Failed to send message: {str(e)}")
+
+    async def send_messages(self):
+        """Handle user input and send messages"""
+        try:
+            print("\n" + "=" * 60)
+            print("📝 You can now start chatting!")
+            print("   Commands:")
+            print("   - /users    : List online users")
+            print("   - /quit     : Exit the chat")
+            print("=" * 60 + "\n")
+
+            # Use asyncio to read from stdin
+            loop = asyncio.get_event_loop()
+
+            while self.running:
+                try:
+                    print("You: ", end="", flush=True)
+
+                    # Read input in a non-blocking way
+                    message = await loop.run_in_executor(None, sys.stdin.readline)
+                    message = message.strip()
+
+                    if not message:
+                        continue
+
+                    # Handle quit command
+                    if message.lower() in ["/quit", "quit", "exit"]:
+                        safe_print("👋 Disconnecting...")
+                        await self.send_message("quit")
+                        self.running = False
+                        break
+
+                    # Send the message
+                    await self.send_message(message)
+
+                except KeyboardInterrupt:
+                    safe_print("\n\n⚠  Interrupted by user")
+                    self.running = False
+                    break
+
+                except Exception as e:
+                    if self.running:
+                        exceptions.log_exception(
+                            exceptions.MessageSendError("Error in send loop", e)
+                        )
+                        safe_print(f"❌ Error: {str(e)}")
+
+        except Exception as e:
+            exceptions.log_exception(
+                exceptions.ChatException("Fatal error in send loop", e)
+            )
+            self.running = False
+
+    async def disconnect(self):
+        """Disconnect from the server"""
+        try:
+            self.running = False
+            if self.websocket:
+                await self.websocket.close()
+                safe_print("✅ Disconnected from server")
+        except Exception as e:
+            exceptions.log_exception(
+                exceptions.DisconnectionError("Error during disconnect", e)
+            )
+
+    async def run(self):
+        """Main client loop"""
+        try:
+            # Connect to server
+            if not await self.connect():
+                return
+
+            # Run receive and send tasks concurrently
+            receive_task = asyncio.create_task(self.receive_messages())
+            send_task = asyncio.create_task(self.send_messages())
+
+            # Wait for either task to complete
+            done, pending = await asyncio.wait(
+                [receive_task, send_task], return_when=asyncio.FIRST_COMPLETED
+            )
+
+            # Cancel pending tasks
+            for task in pending:
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
+
+        except Exception as e:
+            exceptions.log_exception(
+                exceptions.ChatException("Error in main client loop", e)
+            )
+            safe_print(f"❌ Client error: {str(e)}")
+
+        finally:
+            await self.disconnect()
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#                           MAIN FUNCTION
+# ═══════════════════════════════════════════════════════════════════════
+
+
+async def main():
+    """Main entry point"""
+    print("\n" + "=" * 60)
+    print("           💬 FASTAPI CHAT CLIENT")
+    print("=" * 60)
+
+    # Get nickname from user
+    nickname = input("\n👤 Enter your nickname: ").strip()
+
+    if not nickname:
+        nickname = "Anonymous"
+        print(f"ℹ  Using default nickname: {nickname}")
+
+    # Validate nickname
+    if len(nickname) > 50:
+        print("❌ Nickname too long (max 50 characters)")
+        return
+
+    # Create and run client
+    try:
+        client = ChatClient(HOST, PORT, nickname)
+        await client.run()
+
     except KeyboardInterrupt:
-        print("\n👋 Interrupted by user.")
-        log_event("Client interrupted by user")
-        
+        print("\n\n👋 Goodbye!")
+
     except Exception as e:
-        error = ChatException("Fatal client error", e)
-        print(f"\n{format_error_for_user(error)}")
-        log_event(str(error), is_error=True, exception=error)
+        exceptions.log_exception(exceptions.ChatException("Fatal client error", e))
+        print(f"\n❌ Fatal error: {str(e)}")
+
+    finally:
+        print("\n" + "=" * 60)
+        print("           Client terminated")
+        print("=" * 60 + "\n")
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#                           ENTRY POINT
+# ═══════════════════════════════════════════════════════════════════════
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\n👋 Goodbye!")
+    except Exception as e:
+        print(f"❌ Fatal error: {str(e)}")
+        sys.exit(1)
