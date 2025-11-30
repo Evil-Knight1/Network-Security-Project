@@ -1,5 +1,6 @@
 """
 FASTAPI CHAT SERVER WITH WEBSOCKET SUPPORT + REST "FTP" (upload/download/list)
+نسخة محسّنة - تشتغل على الشبكة + Pydantic V2
 """
 
 import os
@@ -9,55 +10,52 @@ from typing import Dict, List, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator  # ✅ Pydantic V2
+from contextlib import asynccontextmanager  # ✅ للـ lifespan
 
 import uvicorn
 import asyncio
 
-# NOTE: this code references an "exceptions" module in your original project.
-# If you don't have it, replace exception logging with simple prints or implement a small exceptions module.
-try:
-    import exceptions
-except Exception:
-    class _DummyExc(Exception):
+# Dummy exceptions module
+class _DummyExc(Exception):
+    def log(self, *a, **k): pass
+
+class exceptions:
+    class ChatException(Exception):
+        def __init__(self, *a, **k): super().__init__(*a)
         def log(self, *a, **k): pass
-    class exceptions:
-        class ChatException(Exception):
-            def __init__(self, *a, **k): super().__init__(*a)
-            def log(self, *a, **k): pass
-        @staticmethod
-        def log_exception(e): print("Exception:", e)
-        @staticmethod
-        def format_error_for_user(e): return str(e)
+    @staticmethod
+    def log_exception(e): print("Exception:", e)
+    @staticmethod
+    def format_error_for_user(e): return str(e)
 
 # ───────────────────────────────────────────
 # Configuration
 # ───────────────────────────────────────────
 class Settings:
-    HOST = "127.0.0.1"
+    HOST = "0.0.0.0"  # ✅✅ كده هيشتغل على كل الشبكة
     PORT = 8000
     BUFFER_SIZE = 1024
     MAX_MESSAGE_LENGTH = 10000
     LOG_FILE = "server_log.txt"
     SSL_CERTFILE = "server.crt"
     SSL_KEYFILE = "server.key"
-    USE_SSL = False  # Change to True if running with SSL
+    USE_SSL = False
     UPLOAD_DIR = "uploads"
 
 settings = Settings()
-
-# ensure upload directory exists
 os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
 
 # ───────────────────────────────────────────
-# Pydantic models
+# Pydantic models (V2)
 # ───────────────────────────────────────────
 class Message(BaseModel):
     content: str
     nickname: Optional[str] = "Anonymous"
     timestamp: Optional[datetime] = None
 
-    @validator("content")
+    @field_validator("content")  # ✅ Pydantic V2
+    @classmethod
     def validate_content(cls, v):
         if not v or not v.strip():
             raise ValueError("Message content cannot be empty")
@@ -65,7 +63,8 @@ class Message(BaseModel):
             raise ValueError(f"Message too long (max {settings.MAX_MESSAGE_LENGTH} chars)")
         return v.strip()
 
-    @validator("nickname")
+    @field_validator("nickname")  # ✅ Pydantic V2
+    @classmethod
     def validate_nickname(cls, v):
         if v and len(v) > 50:
             raise ValueError("Nickname too long (max 50 chars)")
@@ -82,7 +81,7 @@ class UserInfo(BaseModel):
     message_count: int
 
 # ───────────────────────────────────────────
-# Connection manager for WebSockets
+# Connection manager
 # ───────────────────────────────────────────
 class ConnectionManager:
     def __init__(self):
@@ -167,10 +166,54 @@ def log_event(message: str):
     except Exception as e:
         print(f"Failed to log event: {e}")
 
+manager = ConnectionManager()
+
 # ───────────────────────────────────────────
-# FastAPI app + endpoints
+# Lifespan (✅ بدل on_event)
 # ───────────────────────────────────────────
-app = FastAPI(title="Chat Server API", description="Real-time chat server with WebSocket + FTP REST endpoints", version="2.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    try:
+        log_event("=" * 70)
+        log_event("FastAPI Chat Server Started")
+        log_event(f"Host: {settings.HOST}")
+        log_event(f"Port: {settings.PORT}")
+        log_event(f"SSL Enabled: {settings.USE_SSL}")
+        log_event("=" * 70)
+        print(f"🚀 Server started on {settings.HOST}:{settings.PORT}")
+        scheme = "https" if settings.USE_SSL else "http"
+        print(f"📡 WebSocket endpoint: {'wss' if settings.USE_SSL else 'ws'}://{settings.HOST}:{settings.PORT}/ws/{{nickname}}")
+        print(f"📝 API docs: {scheme}://{settings.HOST}:{settings.PORT}/docs")
+    except Exception as e:
+        exceptions.log_exception(e)
+        raise
+    
+    yield  # Server running
+    
+    # Shutdown
+    try:
+        log_event("Server shutting down...")
+        await manager.broadcast("Server is shutting down. Goodbye!")
+        for connection in list(manager.active_connections.keys()):
+            try:
+                await connection.close()
+            except:
+                pass
+        log_event("Server shutdown complete")
+        print("👋 Server stopped")
+    except Exception as e:
+        exceptions.log_exception(e)
+
+# ───────────────────────────────────────────
+# FastAPI app
+# ───────────────────────────────────────────
+app = FastAPI(
+    title="Chat Server API",
+    description="Real-time chat server with WebSocket + FTP REST endpoints",
+    version="2.0.0",
+    lifespan=lifespan  # ✅ استخدام lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -180,16 +223,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-manager = ConnectionManager()
-
+# Exception handlers
 @app.exception_handler(exceptions.ChatException)
 async def chat_exception_handler(request, exc: exceptions.ChatException):
     try:
         exc.log("server_exception_log.txt")
     except Exception:
         pass
-    return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        content={"status": "error", "message": exceptions.format_error_for_user(exc), "details": getattr(exc, "args", [])})
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={
+            "status": "error",
+            "message": exceptions.format_error_for_user(exc),
+            "details": getattr(exc, "args", [])
+        }
+    )
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request, exc: Exception):
@@ -198,31 +246,45 @@ async def general_exception_handler(request, exc: Exception):
         wrapped_exc.log("server_exception_log.txt")
     except Exception:
         pass
-    return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        content={"status": "error", "message": "An unexpected error occurred", "error": str(exc)})
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"status": "error", "message": "An unexpected error occurred", "error": str(exc)}
+    )
 
-# Root / health
+# Endpoints
 @app.get("/", response_model=ChatResponse)
 async def root():
-    return ChatResponse(status="success", message="Chat server is running", data={
-        "version": "2.0.0",
-        "active_connections": len(manager.active_connections),
-        "timestamp": datetime.now().isoformat(),
-    })
+    return ChatResponse(
+        status="success",
+        message="Chat server is running",
+        data={
+            "version": "2.0.0",
+            "active_connections": len(manager.active_connections),
+            "timestamp": datetime.now().isoformat(),
+        }
+    )
 
 @app.get("/health", response_model=ChatResponse)
 async def health_check():
-    return ChatResponse(status="success", message="Server is healthy", data={
-        "active_users": len(manager.active_connections),
-        "message_history_size": len(manager.message_history),
-        "uptime": "N/A",
-    })
+    return ChatResponse(
+        status="success",
+        message="Server is healthy",
+        data={
+            "active_users": len(manager.active_connections),
+            "message_history_size": len(manager.message_history),
+            "uptime": "N/A",
+        }
+    )
 
 @app.get("/users", response_model=ChatResponse)
 async def get_users():
     try:
         users = manager.get_online_users()
-        return ChatResponse(status="success", message=f"Found {len(users)} online users", data={"users": [u.dict() for u in users], "count": len(users)})
+        return ChatResponse(
+            status="success",
+            message=f"Found {len(users)} online users",
+            data={"users": [u.model_dump() for u in users], "count": len(users)}
+        )
     except Exception as e:
         exceptions.log_exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve users")
@@ -230,7 +292,11 @@ async def get_users():
 @app.get("/history")
 async def get_message_history():
     try:
-        return ChatResponse(status="success", message="Message history retrieved", data={"messages": manager.message_history[-50:], "count": len(manager.message_history)})
+        return ChatResponse(
+            status="success",
+            message="Message history retrieved",
+            data={"messages": manager.message_history[-50:], "count": len(manager.message_history)}
+        )
     except Exception as e:
         exceptions.log_exception(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve message history")
@@ -244,7 +310,11 @@ async def send_message(message: Message):
         await manager.broadcast(formatted_msg)
         manager.add_to_history(message.nickname, message.content)
         log_event(f"REST API message from {message.nickname}: {message.content}")
-        return ChatResponse(status="success", message="Message sent successfully", data={"sent_at": datetime.now().isoformat()})
+        return ChatResponse(
+            status="success",
+            message="Message sent successfully",
+            data={"sent_at": datetime.now().isoformat()}
+        )
     except exceptions.ChatException as e:
         exceptions.log_exception(e)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=exceptions.format_error_for_user(e))
@@ -255,7 +325,6 @@ async def send_message(message: Message):
 # WebSocket endpoint
 @app.websocket("/ws/{nickname}")
 async def websocket_endpoint(websocket: WebSocket, nickname: str):
-    # Basic validation
     if not nickname or len(nickname) > 50:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         return
@@ -298,14 +367,11 @@ async def websocket_endpoint(websocket: WebSocket, nickname: str):
         if nickname:
             await manager.broadcast(f"{nickname} left the chat!")
 
-# ───────────────────────────────────────────
-# REST "FTP" endpoints: upload / download / list
-# ───────────────────────────────────────────
+# FTP endpoints
 @app.post("/ftp/upload")
 async def upload_file(file: UploadFile = File(...)):
     try:
         file_path = os.path.join(settings.UPLOAD_DIR, file.filename)
-        # Save file to disk
         with open(file_path, "wb") as f:
             f.write(await file.read())
         log_event(f"File uploaded: {file.filename}")
@@ -330,40 +396,7 @@ async def list_files():
         exceptions.log_exception(e)
         raise HTTPException(status_code=500, detail="Failed to list files")
 
-# Startup / shutdown hooks
-@app.on_event("startup")
-async def startup_event():
-    try:
-        log_event("=" * 70)
-        log_event("FastAPI Chat Server Started")
-        log_event(f"Host: {settings.HOST}")
-        log_event(f"Port: {settings.PORT}")
-        log_event(f"SSL Enabled: {settings.USE_SSL}")
-        log_event("=" * 70)
-        print(f"🚀 Server started on {settings.HOST}:{settings.PORT}")
-        scheme = "https" if settings.USE_SSL else "http"
-        print(f"📡 WebSocket endpoint: {'wss' if settings.USE_SSL else 'ws'}://{settings.HOST}:{settings.PORT}/ws/{{nickname}}")
-        print(f"📝 API docs: {scheme}://{settings.HOST}:{settings.PORT}/docs")
-    except Exception as e:
-        exceptions.log_exception(e)
-        raise
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    try:
-        log_event("Server shutting down...")
-        await manager.broadcast("Server is shutting down. Goodbye!")
-        for connection in list(manager.active_connections.keys()):
-            try:
-                await connection.close()
-            except:
-                pass
-        log_event("Server shutdown complete")
-        print("👋 Server stopped")
-    except Exception as e:
-        exceptions.log_exception(e)
-
-
+# Run server
 if __name__ == "__main__":
     ssl_config = {}
 
@@ -374,13 +407,11 @@ if __name__ == "__main__":
         }
         print("🔒 SSL enabled")
 
-   
     uvicorn.run(
         "server:app",
-        host=settings.HOST,
+        host=settings.HOST,  # ✅ 0.0.0.0
         port=settings.PORT,
         reload=True,          
         log_level="info",
         **ssl_config
     )
-
