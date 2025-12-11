@@ -1,284 +1,0 @@
-[2025-10-19 21:07:48] INFO: Connected to TCP as Ahmed
-[2025-10-19 21:07:48] INFO: Connected to UDP as Ahmed
-[2025-10-19 21:07:57] INFO: Connected to TCP as Ali
-[2025-10-19 21:07:57] INFO: Connected to UDP as Ali
-[2025-10-19 21:08:05] INFO: Sent TCP default: Hello Ali
-[2025-10-19 21:08:54] INFO: Sent UDP: ahmed
-[2025-10-19 21:10:15] INFO: Connected to TCP as Ahmed
-[2025-10-19 21:10:15] INFO: Connected to UDP as Ahmed
-[2025-10-19 21:10:23] INFO: Connected to TCP as Ali
-[2025-10-19 21:10:23] INFO: Connected to UDP as Ali
-[2025-10-19 21:10:38] INFO: Sent TCP default: Hello Ali!
-[2025-10-19 21:10:49] INFO: Sent TCP default: Ahmed hi
-[2025-10-19 21:11:04] INFO: Sent UDP: ALi hi from UDP
-[2025-10-19 21:11:26] INFO: Sent TCP: Ahmed hi from TCP
-[2025-10-20 00:17:03] INFO: Connected to TCP as Ahmed
-[2025-10-20 00:17:03] INFO: Connected to UDP as Ahmed
-[2025-10-20 00:17:10] INFO: Connected to TCP as Ali
-[2025-10-20 00:17:10] INFO: Connected to UDP as Ali
-[2025-10-20 00:17:22] INFO: Sent TCP default: Hi Ali
-[2025-10-20 00:17:38] INFO: Sent UDP: Ahmed sent by UDP
-[2025-10-20 00:21:06] ERROR: TCP socket error while receiving | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-Exception Type: MessageReceiveError
-Exception Message: TCP socket error while receiving | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 42, in tcp_receive
-    msg_data = sock.recv(1024)
-               ^^^^^^^^^^^^^^^
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 57, in tcp_receive
-    raise MessageReceiveError("TCP socket error while receiving", e)
-exceptions.MessageReceiveError: TCP socket error while receiving | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-[2025-10-20 00:23:17] INFO: Connected to TCP as Ahmed
-[2025-10-20 00:23:17] INFO: Connected to UDP as Ahmed
-[2025-10-20 00:23:44] INFO: Connected to TCP as Sayed
-[2025-10-20 00:23:44] INFO: Connected to UDP as Sayed
-[2025-10-20 00:24:12] INFO: Sent UDP: Hi Ahmed
-[2025-10-20 00:24:26] INFO: Sent TCP default: Hi Ahmed
-[2025-10-20 00:24:51] INFO: Sent TCP: kasdflaks
-[2025-10-20 00:24:58] INFO: Sent UDP: kosomk
-[2025-10-20 00:25:05] INFO: Requested user list
-[2025-10-20 00:50:54] INFO: Connected to TCP as ahmed
-[2025-10-20 00:50:54] INFO: Connected to UDP as ahmed
-[2025-10-20 00:50:57] INFO: Sent TCP default: hi
-[2025-10-20 00:51:04] INFO: Sent TCP default: ji
-[2025-10-20 00:51:13] INFO: Sent TCP default: hue
-[2025-10-20 00:51:28] INFO: Requested user list
-[2025-10-20 00:51:32] INFO: Requested user list
-[2025-10-20 00:51:51] INFO: Connected to TCP as hima
-[2025-10-20 00:51:51] INFO: Connected to UDP as hima
-[2025-10-20 00:51:54] INFO: Sent TCP default: hi
-[2025-10-20 00:52:23] ERROR: TCP receive error: [WinError 10054] An existing connection was forcibly closed by the remote host
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 41, in tcp_receive
-    msg = sock.recv(1024).decode("utf-8")
-          ^^^^^^^^^^^^^^^
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-[2025-10-20 00:52:23] ERROR: TCP receive error: [WinError 10054] An existing connection was forcibly closed by the remote host
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 41, in tcp_receive
-    msg = sock.recv(1024).decode("utf-8")
-          ^^^^^^^^^^^^^^^
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-[2025-10-20 00:52:36] ERROR: TCP connection failed: [WinError 10061] No connection could be made because the target machine actively refused it
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 52, in start_tcp
-    sock.connect((HOST, TCP_PORT))
-ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
-
-[2025-10-20 00:52:36] INFO: Connected to UDP as hima
-[2025-10-20 01:01:47] INFO: Connected to TCP as ahmed
-[2025-10-20 01:01:47] INFO: Connected to UDP as ahmed
-[2025-10-20 01:01:51] INFO: Connected to TCP as hima
-[2025-10-20 01:01:51] INFO: Connected to UDP as hima
-[2025-10-20 01:02:00] INFO: Sent TCP: hi
-[2025-10-20 01:02:12] INFO: Sent UDP: me
-[2025-10-20 01:02:30] INFO: Requested user list
-[2025-10-20 01:03:30] ERROR: Connection refused to 127.0.0.1:50 | Original: [WinError 10061] No connection could be made because the target machine actively refused it
-Exception Type: ConnectionError
-Message: Connection refused to 127.0.0.1:50
-Original Error: ConnectionRefusedError
-Original Message: [WinError 10061] No connection could be made because the target machine actively refused it
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 108, in start_tcp
-    sock.connect((HOST, TCP_PORT))
-ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 112, in start_tcp
-    raise handle_socket_error(e, "connect", f"to {HOST}:{TCP_PORT}")
-exceptions.ConnectionError: Connection refused to 127.0.0.1:50 | Original: [WinError 10061] No connection could be made because the target machine actively refused it
-
-[2025-10-20 01:03:30] INFO: Connected to UDP as mossad
-[2025-10-20 01:03:46] INFO: Sent UDP: hi
-[2025-10-20 01:03:52] INFO: Requested user list
-[2025-10-20 01:12:00] INFO: Connected to TCP as ahmed
-[2025-10-20 01:12:00] INFO: Connected to UDP as ahmed
-[2025-10-20 01:12:00] ERROR: UDP receive error | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-Exception Type: UDPError
-Message: UDP receive error
-Original Error: ConnectionResetError
-Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 180, in udp_receive
-    data, _ = sock.recvfrom(1024)
-              ^^^^^^^^^^^^^^^^^^^
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\rtrar\Downloads\Network-Security-Project\client.py", line 185, in udp_receive
-    raise UDPError("UDP receive error", e)
-exceptions.UDPError: UDP receive error | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-[2025-10-20 01:12:12] INFO: Requested user list
-[2025-10-20 01:12:29] INFO: Sent TCP default: hi
-[2025-10-20 01:12:37] INFO: Sent UDP: hi
-[2025-10-20 01:12:54] INFO: Sent TCP default: hi
-[2025-10-20 01:13:01] INFO: Sent UDP: hi
-[2025-11-02 20:36:12] INFO: Connected to TCP as ahmed
-[2025-11-02 20:36:12] INFO: Connected to UDP as ahmed
-[2025-11-02 20:36:37] INFO: Connected to TCP as abdelrahman
-[2025-11-02 20:36:37] INFO: Connected to UDP as abdelrahman
-[2025-11-02 20:36:58] INFO: Sent TCP default: hello ahmed
-[2025-11-02 20:48:03] ERROR: Failed to receive TCP message | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-Exception Type: MessageReceiveError
-Message: Failed to receive TCP message
-Original Error: ConnectionResetError
-Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
-Traceback (most recent call last):
-  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\client.py", line 50, in tcp_receive
-    msg_data = sock.recv(1024)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\client.py", line 55, in tcp_receive
-    raise handle_socket_error(e, "recv", "TCP message")
-exceptions.MessageReceiveError: Failed to receive TCP message | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-[2025-11-02 20:50:30] INFO: Connected to TCP as ahmed
-[2025-11-02 20:50:30] INFO: Connected to UDP as ahmed
-[2025-11-02 20:50:51] INFO: Connected to TCP as abdelrahman
-[2025-11-02 20:50:51] INFO: Connected to UDP as abdelrahman
-[2025-11-02 20:52:08] ERROR: Failed to receive TCP message | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-Exception Type: MessageReceiveError
-Message: Failed to receive TCP message
-Original Error: ConnectionResetError
-Original Message: [WinError 10054] An existing connection was forcibly closed by the remote host
-Traceback (most recent call last):
-  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\client.py", line 50, in tcp_receive
-    msg_data = sock.recv(1024)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\abdel\OneDrive\Desktop\network security\Network-Security-Project\client.py", line 55, in tcp_receive
-    raise handle_socket_error(e, "recv", "TCP message")
-exceptions.MessageReceiveError: Failed to receive TCP message | Original: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-[20:57:55] [TCP-SSL] Securely connected to server.
-[20:57:55] [UDP] Connected via UDP.
-[20:58:10] [TCP-SSL] Securely connected to server.
-[20:58:10] [UDP] Connected via UDP.
-[20:58:10] abdelrahman (UDP):  joined via UDP
-[20:58:10] abdelrahman joined the chat!
-[20:59:47] [TCP-SSL] Disconnected from server.
-[20:59:47] [TCP-SSL] Disconnected from server.
-[21:19:44] [TCP-SSL] Securely connected to server.
-[21:19:44] [UDP] Connected via UDP.
-[21:19:54] [TCP-SSL] Securely connected to server.
-[21:19:54] [UDP] Connected via UDP.
-[21:19:54] abdelrahman (UDP):  joined via UDP
-[21:19:54] abdelrahman joined the chat!
-[21:25:25] abdelrahman left the chat!
-[20:35:54] [TCP-SSL] Securely connected to server.
-[20:35:54] [UDP] Connected via UDP.
-[20:36:26] Goodbye!
-[20:36:26] [TCP-SSL] Disconnected from server.
-[2025-11-09 22:52:17] 🔌 Connecting to ws://127.0.0.1:8000/ws/ebrahem...
-[2025-11-09 22:52:17] ❌ Client error: name 'websockets' is not defined
-[2025-11-09 22:53:41] 🔌 Connecting to ws://127.0.0.1:8000/ws/ebrahem...
-[2025-11-09 22:53:41] ✅ Connected to server!
-[2025-11-09 22:53:41] Welcome ebrahem! You are now connected.
-[2025-11-09 22:53:54] 🔌 Connecting to ws://127.0.0.1:8000/ws/eslam...
-[2025-11-09 22:53:55] ✅ Connected to server!
-[2025-11-09 22:53:55] eslam joined the chat!
-[2025-11-09 22:53:55] Welcome eslam! You are now connected.
-[2025-11-09 22:53:56] Sent: hi
-[2025-11-09 22:53:56] eslam: hi
-[2025-11-09 22:53:59] Sent: hello
-[2025-11-09 22:53:59] ebrahem: hello
-[2025-11-09 22:54:31] 
-⚠  Connection closed by server
-[2025-11-09 22:54:31] ✅ Disconnected from server
-[2025-11-09 22:54:31] ✅ Disconnected from server
-[2025-11-09 22:55:03] 🔌 Connecting to ws://127.0.0.1:8000/ws/ebrahem...
-[2025-11-09 22:55:03] ❌ Connection failed: did not receive a valid HTTP response
-[2025-11-09 22:57:44] 🔌 Connecting to wss://127.0.0.1:8000/ws/ebrahem...
-[2025-11-09 22:57:44] ✅ Connected to server!
-[2025-11-09 22:57:44] Welcome ebrahem! You are now connected.
-[2025-11-09 22:57:50] Sent: /users
-[2025-11-09 22:57:50] Online users:
-- ebrahem
-[2025-11-09 22:57:57] 🔌 Connecting to wss://127.0.0.1:8000/ws/eslam...
-[2025-11-09 22:57:57] ✅ Connected to server!
-[2025-11-09 22:57:57] eslam joined the chat!
-[2025-11-09 22:57:57] Welcome eslam! You are now connected.
-[2025-11-09 22:57:58] Sent: hi
-[2025-11-09 22:57:58] eslam: hi
-[2025-11-09 22:58:02] Sent: /users
-[2025-11-09 22:58:02] Online users:
-- ebrahem
-- eslam
-[2025-11-09 22:58:06] Sent: /history
-[2025-11-09 22:58:06] eslam: /history
-[2025-11-09 22:58:13] Sent: hi
-[2025-11-09 22:58:13] ebrahem: hi
-[2025-11-09 22:59:45] Anonymous: string
-[2025-11-09 22:59:46] Anonymous: string
-[2025-11-09 22:59:46] Anonymous: string
-[2025-11-09 23:05:27] 
-⚠  Connection closed by server
-[2025-11-09 23:05:27] 
-⚠  Connection closed by server
-[2025-11-09 23:05:27] ✅ Disconnected from server
-[2025-11-09 23:05:27] ✅ Disconnected from server
-[2025-11-10 10:42:37] 🔌 Connecting to wss://127.0.0.1:8000/ws/eslam...
-[2025-11-10 10:42:37] ✅ Connected to server!
-[2025-11-10 10:42:37] Welcome eslam! You are now connected.
-[2025-11-10 10:44:22] API USER: hi
-[2025-11-10 10:45:07] 🔌 Connecting to wss://127.0.0.1:8000/ws/Anonymous...
-[2025-11-10 10:45:07] ✅ Connected to server!
-[2025-11-10 10:45:07] Anonymous joined the chat!
-[2025-11-10 10:45:07] Welcome Anonymous! You are now connected.
-[2025-11-10 10:45:07] 
---- Recent Messages ---
-[10:44:22] API USER: hi
---- End of History ---
-
-[2025-11-10 10:45:29] API USER: hi
-[2025-11-10 10:45:29] API USER: hi
-[2025-11-10 10:45:34] 
-⚠  Connection closed by server
-[2025-11-10 10:45:34] 
-⚠  Connection closed by server
-[2025-11-10 10:45:34] ✅ Disconnected from server
-[2025-11-10 10:52:21] 🔌 Connecting to wss://127.0.0.1:8000/ws/Ibrahim...
-[2025-11-10 10:52:21] ✅ Connected to server!
-[2025-11-10 10:52:21] Welcome Ibrahim! You are now connected.
-[2025-11-10 10:52:24] 🔌 Connecting to wss://127.0.0.1:8000/ws/Eslam...
-[2025-11-10 10:52:24] ✅ Connected to server!
-[2025-11-10 10:52:24] Eslam joined the chat!
-[2025-11-10 10:52:24] Welcome Eslam! You are now connected.
-[2025-11-10 10:59:20] 🔌 Connecting to wss://127.0.0.1:8000/ws/ebrahem...
-[2025-11-10 10:59:20] ✅ Connected to server!
-[2025-11-10 10:59:20] Welcome ebrahem! You are now connected.
-[2025-11-10 10:59:25] Api User: Hello
-[2025-11-10 10:59:46] 🔌 Connecting to wss://127.0.0.1:8000/ws/eskan...
-[2025-11-10 10:59:46] ✅ Connected to server!
-[2025-11-10 10:59:46] eskan joined the chat!
-[2025-11-10 10:59:46] Welcome eskan! You are now connected.
-[2025-11-10 10:59:46] 
---- Recent Messages ---
-[10:59:25] Api User: Hello
---- End of History ---
-
-[2025-11-10 10:59:54] Sent: hi
-[2025-11-10 10:59:54] eskan: hi
-[2025-11-10 11:01:47] Api User: Hello
-[2025-11-10 11:03:29] Api User: Hello
-[2025-11-10 11:03:29] Api User: Hello
-[2025-11-10 11:06:22] eskan left the chat!

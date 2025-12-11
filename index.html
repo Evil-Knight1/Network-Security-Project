@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureChat | Premium Messenger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Toast Notification Container -->
+        <div id="toast-container"></div>
+
+        <!-- AUTH VIEW -->
+        <div id="view-auth" class="view active">
+            <div class="auth-container">
+                <div class="auth-card glass-panel">
+                    <h1 class="logo-text">SecureChat</h1>
+                    <p class="subtitle">Next Generation Encrypted Messaging</p>
+
+                    <!-- Login Form -->
+                    <form id="login-form">
+                        <div class="input-group">
+                            <input type="text" id="login-username" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="login-password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </form>
+
+                    <!-- Signup Form (Hidden by default) -->
+                    <form id="signup-form" class="hidden">
+                        <div class="input-group">
+                            <input type="text" id="signup-username" placeholder="Choose a Username" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="signup-password" placeholder="Choose a Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    </form>
+
+                    <div class="auth-switch">
+                        <p id="to-signup">Don't have an account? <span>Sign Up</span></p>
+                        <p id="to-login" class="hidden">Already have an account? <span>Sign In</span></p>
+                    </div>
+
+                    <div class="divider">or</div>
+                    <button id="btn-contact-public" class="btn btn-text">Contact Support</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN APP VIEW (Chat & Dashboard) -->
+        <div id="view-app" class="view hidden">
+            <aside class="sidebar glass-panel">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="avatar" id="current-user-avatar">?</div>
+                        <div class="user-info">
+                            <h3 id="current-user-name">User</h3>
+                            <span class="status-indicator online">Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-nav">
+                    <button class="nav-btn active" data-tab="chats">Chats</button>
+                    <button class="nav-btn" data-tab="contacts">Users</button>
+                    <button class="nav-btn" id="nav-admin" style="display: none;">Admin</button>
+                </div>
+
+                <div class="sidebar-content">
+                    <!-- Chats List -->
+                    <div id="tab-chats" class="tab-content active">
+                        <div class="list-header">
+                            <h4>Private</h4>
+                            <button class="btn-icon small" id="btn-refresh-chats">+</button>
+                        </div>
+                        <ul id="private-chat-list" class="item-list"></ul>
+
+                        <div class="list-header mt-4">
+                            <h4>Groups</h4>
+                            <button class="btn-icon small" id="btn-create-group">+</button>
+                        </div>
+                        <ul id="group-chat-list" class="item-list"></ul>
+                    </div>
+
+                    <!-- Users List (for creating chats) -->
+                    <div id="tab-contacts" class="tab-content">
+                        <ul id="users-list" class="item-list"></ul>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <button id="btn-logout" class="btn btn-outline btn-block">Logout</button>
+                </div>
+            </aside>
+
+            <main class="chat-area glass-panel">
+                <!-- Empty State -->
+                <div id="chat-placeholder" class="placeholder-state">
+                    <div class="placeholder-content">
+                        <h2>Welcome to SecureChat</h2>
+                        <p>Select a conversation to start messaging</p>
+                    </div>
+                </div>
+
+                <!-- Active Chat View -->
+                <div id="chat-container" class="active-chat hidden">
+                    <header class="chat-header">
+                        <div class="chat-info">
+                            <h3 id="active-chat-title">Chat Name</h3>
+                            <span id="active-chat-status">active</span>
+                        </div>
+                        <div class="chat-actions">
+                            <!-- Admin or Group actions could go here -->
+                        </div>
+                    </header>
+
+                    <div id="messages-area" class="messages-scroll">
+                        <!-- Messages inserted here -->
+                    </div>
+
+                    <footer class="chat-input-area">
+                        <form id="message-form">
+                            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+                            <button type="submit" class="btn btn-primary send-btn">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                                </svg>
+                            </button>
+                        </form>
+                    </footer>
+                </div>
+
+                <!-- Admin View Overlay -->
+                <div id="admin-panel" class="admin-panel hidden">
+                    <header>
+                        <h2>Admin Dashboard</h2>
+                        <button id="btn-close-admin" class="btn-icon">x</button>
+                    </header>
+                    <div class="admin-content">
+                        <div class="admin-tabs">
+                            <button class="admin-tab active" data-target="email-inbox">Inbox</button>
+                            <button class="admin-tab" data-target="email-config">Config</button>
+                            <button class="admin-tab" data-target="contact-subs">Forms</button>
+                        </div>
+
+                        <div id="email-inbox" class="admin-section active">
+                            <div class="toolbar">
+                                <button id="btn-refresh-emails" class="btn btn-small">Refresh</button>
+                                <span id="current-email-mode">Mode: IMAP</span>
+                                <button id="btn-toggle-mode" class="btn btn-small btn-outline">Switch Mode</button>
+                            </div>
+                            <ul id="email-list" class="email-list"></ul>
+                        </div>
+
+                        <div id="email-config" class="admin-section">
+                            <form id="config-form">
+                                <h4>SMTP Settings</h4>
+                                <input type="text" name="smtp_server" placeholder="SMTP Server">
+                                <input type="number" name="smtp_port" placeholder="Port">
+                                <input type="text" name="smtp_username" placeholder="Username">
+
+                                <h4>IMAP Settings</h4>
+                                <input type="text" name="imap_server" placeholder="IMAP Server">
+
+                                <h4>POP3 Settings</h4>
+                                <input type="text" name="pop3_server" placeholder="POP3 Server">
+
+                                <button type="submit" class="btn btn-primary mt-4">Save Config</button>
+                            </form>
+                        </div>
+
+                        <div id="contact-subs" class="admin-section">
+                            <ul id="submission-list" class="item-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- CONTACT VIEW -->
+        <div id="view-contact" class="view hidden">
+            <div class="auth-container">
+                <div class="auth-card glass-panel wide">
+                    <button id="btn-back-auth" class="btn-text">&larr; Back</button>
+                    <h2>Contact Support</h2>
+                    <form id="contact-form">
+                        <div class="input-group">
+                            <label>Name</label>
+                            <input type="text" id="contact-name" name="name" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Email</label>
+                            <input type="email" id="contact-email" name="email" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Message</label>
+                            <textarea id="contact-message" name="message" rows="4" required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Attachment (Optional)</label>
+                            <input type="file" id="contact-file" name="file">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

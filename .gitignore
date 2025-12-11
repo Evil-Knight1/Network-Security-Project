@@ -1,8 +1,10 @@
-# Ignore log files
-server_log.txt
-client_log.txt
-
-# Ignore Python cache files and folders
-__pycache__/
-*.py[cod]
-*.pyo
+backend/.venv
+backend/__pycache__
+backend/*.pyc
+backend/uploads
+backend/database.json
+backend/run_server.bat
+backend/server_log.txt
+backend/server_exception_log.txt
+backend/server.crt
+backend/server.key
